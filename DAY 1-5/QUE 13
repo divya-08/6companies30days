@@ -1,0 +1,54 @@
+
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    string solution(string &s, int &n, int &i) {
+        string ans;
+        int x=0;
+        for(i=i;i<n;i++) {
+            char a=s[i];
+            if(a>='0' and a<='9') {
+                x=x*10+s[i]-'0';
+            }
+            else if(s[i]=='[') {
+                i++;
+                string temp=solution(s, n, i);
+                while(x--) {ans+=temp;}
+                x=0;
+            }
+            else if(s[i] == ']') {return ans;}
+            else {ans+=s[i];}
+            }
+        return ans;
+    }
+    
+    string decodedString(string s){
+        int i=0, n=s.size();
+        return solution(s, n, i);
+    }
+    
+    
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s;
+        cin>>s;
+        
+        Solution ob;
+        cout<<ob.decodedString(s)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends
