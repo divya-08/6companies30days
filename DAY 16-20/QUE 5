@@ -1,0 +1,33 @@
+// Initial Template for C++
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function Template for C++
+class Solution{
+    public:
+    int fun(int n, int x, int c) {
+        if(pow(c, x)<n) {return (fun(n-pow(c, x), x, c+1) + fun(n, x, c+1));}
+        else if(pow(c, x)==n) {return 1;}
+        else {return 0;}
+    }
+    int numOfWays(int n, int x) {
+        return fun(n, x, 1);
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int  n, x;
+        cin >> n >> x;
+        Solution ob;
+        cout<<ob.numOfWays(n, x)<<endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends
