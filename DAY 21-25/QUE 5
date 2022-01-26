@@ -1,0 +1,24 @@
+class Solution {
+public:    
+    int splitArray(vector<int>& nums, int m) {
+        int n=nums.size(), left=0, right=0, mid=0;
+        for(int i=0;i<n;i++) {
+            left=max(left, nums[i]);
+            right+=nums[i];
+        }
+        while(left<=right) {
+            mid=left+(right-left)/2;
+            int sum=0, count=1;
+            for(int i=0;i<nums.size();i++) {
+                sum+=nums[i];
+                if(sum>mid) {
+                    sum=nums[i];
+                    count++;
+                }
+            }
+            if(count<=m) {right=mid-1;}
+            else {left=mid+1;}
+        }
+        return left;
+    }
+};
