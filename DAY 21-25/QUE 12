@@ -1,0 +1,58 @@
+class Solution {
+public:
+    
+    bool detect(vector<vector<int>> &v, vector<int> &visited, int i) {
+        if(visited[i]==1) return 1;
+        if(visited[i]==2) return 0;
+        visited[i]=1;
+        for(int j=0;j<v[i].size();j++) {
+            if(detect(v, visited, v[i][j])) {return true;}
+        }
+        visited[i]=2;
+        return false;
+    }
+    
+    bool detectCycle(vector<vector<int>> &v, int n) {
+        vector<int> visited(n, false);
+        for(int i=0;i<n;i++) {
+            if(!visited[i]) {
+                if(detect(v, visited, i)) {return true;}
+            } 
+        }
+        return false;
+    }
+    
+    void dfs(vector<vector<int>> &v, int i, stack<int> &s, vector<bool> &visited) {
+        visited[i]=1;
+        for(int j=0;j<v[i].size();j++) {
+            if(!visited[v[i][j]]) {
+                dfs(v, v[i][j], s, visited);
+            }
+        }
+        s.push(i);
+    }
+    
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        int n=prerequisites.size();
+        vector<vector<int>> v(numCourses);
+        
+        //make list
+        for(int i=0;i<n;i++) {v[prerequisites[i][1]].push_back(prerequisites[i][0]);}
+        
+        //detect cycle if present then return empty array
+        vector<int> ans;
+        if(detectCycle(v, numCourses)) {return ans;}
+        
+        //toposort
+        stack<int> s;
+        vector<bool> visited(numCourses, false);
+        for(int i=0;i<numCourses;i++) {
+            if(!visited[i]) {dfs(v, i, s, visited);}
+        }
+        while(!s.empty()) {
+            ans.push_back(s.top());
+            s.pop();
+        }
+        return ans;
+    }
+};
