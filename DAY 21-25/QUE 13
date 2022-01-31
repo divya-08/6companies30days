@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minSwaps(vector<vector<int>>& grid) {
+        int n=grid.size();
+        vector<int> v;
+        for(int i=0;i<n;i++) {
+            int j=n-1, count=0;
+            while(j>=0 and grid[i][j]!=1) {
+                j--;
+                count++;
+            }
+            v.push_back(count);
+        }
+        int pos=0, ans=0;
+        for(int i=0;i<n;i++) {
+            pos=i;
+            while(pos<n and v[pos]<n-i-1) {pos++;}
+            if(pos==n) {return -1;}
+            ans+=pos-i;
+            while(pos>0) {
+                v[pos]=v[pos-1];
+                pos--;
+            } 
+        }
+        return ans;
+    }
+};
